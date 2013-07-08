@@ -13,12 +13,15 @@ def mynorm(x1, x2):
 
 class Interpolator:
     def __init__(self, setup):
+        self
         data = []
-        singleBinData = []
         for mp in setup:
             tfile = ROOT.TFile(mp['file'])
             hist  = tfile.Get(mp['name']) 
-            data += [(hist.GetBinCenter(i+1),mp['mass'],hist.GetBinContent(i+1)) for i in range(hist.GetNbinsX())]
+            if(hist.GetNbinsX() == 1):
+                data += [(hist.GetBinCenter(1),mp['mass'],hist.GetBinContent(1))]
+            else:
+                data += [(hist.GetBinCenter(i),mp['mass'],hist.GetBinContent(i)) for i in range(hist.GetNbinsX()+2)]
             tfile.Close()
         x,y,z = [np.array(d) for d in zip(*data)]
         self.spline = interpolate.Rbf(x,y,z,epsilon=10,function='quintic', norm = mynorm)
@@ -46,10 +49,15 @@ class Interpolator:
             tfile = ROOT.TFile(mp['file'],"UPDATE")
             hist  = tfile.Get( mp['clone']) 
             newH  = hist.Clone(mp['name']) 
-            for i in range(newH.GetNbinsX()):
-                x = hist.GetBinCenter(i)
+            if newH.GetNbinsX()==1:
+                x = hist.GetBinCenter(1)
                 z = self.spline(x,mp['mass'])
-                newH.SetBinContent(i+1,z if z > 0 else 0) 
+                newH.SetBinContent(1,z if z > 0 else 0) 
+            else:
+                for i in range(newH.GetNbinsX()+2):
+                    x = hist.GetBinCenter(i)
+                    z = self.spline(x,mp['mass'])
+                    newH.SetBinContent(i,z if z > 0 else 0) 
             newH.Write()
             ints[mp["mass"]] = newH.Integral()
             tfile.Close()
