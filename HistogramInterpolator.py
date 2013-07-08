@@ -18,12 +18,10 @@ class Interpolator:
         for mp in setup:
             tfile = ROOT.TFile(mp['file'])
             hist  = tfile.Get(mp['name']) 
-            data += [(hist.GetBinCenter(i),mp['mass'],hist.GetBinContent(i)) for i in range(hist.GetNbinsX())]
+            data += [(hist.GetBinCenter(i+1),mp['mass'],hist.GetBinContent(i+1)) for i in range(hist.GetNbinsX())]
             tfile.Close()
-
         x,y,z = [np.array(d) for d in zip(*data)]
         self.spline = interpolate.Rbf(x,y,z,epsilon=10,function='quintic', norm = mynorm)
-
         self.minx,self.maxx = min(x),max(x)
         self.miny,self.maxy = min(y),max(y)
 
@@ -51,7 +49,7 @@ class Interpolator:
             for i in range(newH.GetNbinsX()):
                 x = hist.GetBinCenter(i)
                 z = self.spline(x,mp['mass'])
-                newH.SetBinContent(i,z if z > 0 else 0) 
+                newH.SetBinContent(i+1,z if z > 0 else 0) 
             newH.Write()
             ints[mp["mass"]] = newH.Integral()
             tfile.Close()
@@ -61,9 +59,9 @@ class Interpolator:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Histograms interpolator.')
     parser.add_argument('setupJson',  help='*.json file, containing detailed info on mass point histograms')
-    parser.add_argument('--srcroot', dest= 'srcFile', default="",  help='ROOT file, containing source histograms.')
-    parser.add_argument('--dstroot', dest= 'dstFile', default="",  help='ROOT file to write interpolated histograms. (will use srcRoot if not provided)')
-    parser.add_argument('--plot',    dest='plotFile', default="",  help='File for 2d spline plot.')
+    parser.add_argument('--srcroot',dest= 'srcFile',default="",help='ROOT file, containing source histograms.')
+    parser.add_argument('--dstroot',dest= 'dstFile',default="",help='ROOT file to write interpolated histograms. (will use srcRoot if not provided)')
+    parser.add_argument('--plot',   dest='plotFile',default="",help='File for 2d spline plot.')
     args = parser.parse_args()
 
     with open(args.setupJson,"r") as jsonF:
