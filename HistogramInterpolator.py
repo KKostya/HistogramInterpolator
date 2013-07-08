@@ -18,7 +18,6 @@ class Interpolator:
         for mp in setup:
             tfile = ROOT.TFile(mp['file'])
             hist  = tfile.Get(mp['name']) 
-            print hist.GetNbinsX()
             data += [(hist.GetBinCenter(i),mp['mass'],hist.GetBinContent(i)) for i in range(hist.GetNbinsX())]
             tfile.Close()
 
