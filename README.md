@@ -50,3 +50,7 @@ It should contain two sections:
     + `name` is a name of the new histogram
     + `clone` mandatory entry that provides the prototype `TH1` object in the destination file. From that object the script learns how many bins one needs in the resulting histogram.
     + `file` is an optional entry that gives you an alternative way to set a destination file 
+
+## Extra outputs
+* Using `--plot plotname.pdf` argument you are able to ask the script to make a 2D contour plot of the spline, used in interpolation. Useful when you want to see how good the interpolation is.
+* With the `--ratejson rate.json` argument the script creates anothe json file with integrals of the produced histograms. It could be useful for some batch processing.
