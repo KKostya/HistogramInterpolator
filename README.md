@@ -11,10 +11,14 @@ Python script for interpolating 1D histograms in ROOT files.
 
 #### Note for CMS people @ lxplus 
 It almost works out of the box with recent CMMSW >= 6 distributions, 
-the only problem is the issue is the error with `dateutil.rrule` import for matplotlib.
+the only problem is the error with `dateutil.rrule` import for matplotlib.
 The simplest solution is to get the correct package into the script directory:
 
-
+     wget http://niemeyer.net/download/python-dateutil/python-dateutil-1.5.tar.gz
+     tar xvvf python-dateutil-1.5.tar.gz
+     cp -r ./python-dateutil-1.5/dateutil/ .
+     rm -rf python-dateutil-1.5
+     rm python-dateutil-1.5.tar.gz
 
 # Usage
 
