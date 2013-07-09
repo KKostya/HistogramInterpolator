@@ -9,6 +9,13 @@ Python script for interpolating 1D histograms in ROOT files.
 * [SciPy](http://www.scipy.org/)
 * [Matplotlib](http://matplotlib.org/)
 
+#### Note for CMS people @ lxplus 
+It almost works out of the box with recent CMMSW >= 6 distributions, 
+the only problem is the issue is the error with `dateutil.rrule` import for matplotlib.
+The simplest solution is to get the correct package into the script directory:
+
+
+
 # Usage
 
     HistogramInterpolator.py setup.json --srcroot source.root --dstroot destination.root
