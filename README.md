@@ -7,7 +7,7 @@ The script was created for the cases when one
 
 # Requirements
 
-* [PyROOT][http://root.cern.ch/drupal/content/pyroot]
+* [PyROOT](http://root.cern.ch/drupal/content/pyroot)
 * [SciPy][http://www.scipy.org/]
 * [Matplotlib][http://matplotlib.org/]
 
