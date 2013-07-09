@@ -3,12 +3,21 @@ HistogramInterpolator
 
 Python script for interpolating 1D histograms in ROOT files.
 
+The script was created for the cases when one 
+
+# Requirements
+
+* [PyROOT][http://root.cern.ch/drupal/content/pyroot]
+* [SciPy][http://www.scipy.org/]
+* [Matplotlib][http://matplotlib.org/]
+
 # Usage
 
     HistogramInterpolator.py setup.json --srcroot source.root --dstroot destination.root
     
 ## Json structure
-Example of json setup file:    
+The script information about histograms, that one wants to interpolate is provided by means of a [json][http://en.wikipedia.org/wiki/JSON] setup file.
+Here is an example of it:    
 
     { 
     "src": 
@@ -23,12 +32,12 @@ Example of json setup file:
     }
     
 It should contain two sections: 
-* `src` with information of source histograms to base interpolation on
+* `src` provides information on source histograms:
     + `mass` gives the value for the mass
     + `name` entry is a key of the `TH1` in the source root file 
     + `file` is an optional entry that gives you an alternative way to set a source file 
-* `dst` with data on the histograms that should be created
-    + `mass` gives the value for the mass to find interpolated histogram at
-    + `name` entry gives a name for the histogram to write
-    + `clone` mandatory entry that provides the prototype `TH1` in the destination file
+* `dst` contains information on histograms that should be created:
+    + `mass` gives the value for the mass, where the interpolated histogram should be produced
+    + `name` is a name of the new histogram
+    + `clone` mandatory entry that provides the prototype `TH1` object in the destination file. From that object the script learns how many bins one needs in the resulting histogram.
     + `file` is an optional entry that gives you an alternative way to set a destination file 
