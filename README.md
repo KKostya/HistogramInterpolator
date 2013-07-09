@@ -8,15 +8,15 @@ The script was created for the cases when one
 # Requirements
 
 * [PyROOT](http://root.cern.ch/drupal/content/pyroot)
-* [SciPy][http://www.scipy.org/]
-* [Matplotlib][http://matplotlib.org/]
+* [SciPy](http://www.scipy.org/)
+* [Matplotlib](http://matplotlib.org/)
 
 # Usage
 
     HistogramInterpolator.py setup.json --srcroot source.root --dstroot destination.root
     
 ## Json structure
-The script information about histograms, that one wants to interpolate is provided by means of a [json][http://en.wikipedia.org/wiki/JSON] setup file.
+The script information about histograms, that one wants to interpolate is provided by means of a [json](http://en.wikipedia.org/wiki/JSON) setup file.
 Here is an example of it:    
 
     { 
