@@ -67,9 +67,10 @@ class Interpolator:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Histograms interpolator.')
     parser.add_argument('setupJson',  help='*.json file, containing detailed info on mass point histograms')
-    parser.add_argument('--srcroot',dest= 'srcFile',default="",help='ROOT file, containing source histograms.')
-    parser.add_argument('--dstroot',dest= 'dstFile',default="",help='ROOT file to write interpolated histograms. (will use srcRoot if not provided)')
-    parser.add_argument('--plot',   dest='plotFile',default="",help='File for 2d spline plot.')
+    parser.add_argument('--srcroot', dest= 'srcFile',default="",help='ROOT file, containing source histograms.')
+    parser.add_argument('--dstroot', dest= 'dstFile',default="",help='ROOT file to write interpolated histograms. (will use srcRoot if not provided)')
+    parser.add_argument('--plot',    dest='plotFile',default="",help='File for 2d spline plot.')
+    parser.add_argument('--ratejson',dest='rateFile',default="",help='Json file to store integrals of the produced histograms')
     args = parser.parse_args()
 
     with open(args.setupJson,"r") as jsonF:
@@ -97,7 +98,9 @@ if __name__ == "__main__":
         
     itp = Interpolator(setupSrc)
     if args.plotFile: itp.MakePlot(args.plotFile)
-    print json.dumps(itp.FillHists(setupDst),sort_keys=True,indent=4, separators=(',', ': '))
+    if args.rateFile:
+        with open(args.rateFile, "w") as jswrite:
+             json.dump(itp.FillHists(setupDst),jswrite,sort_keys=True,indent=4, separators=(',', ': '))
 
 
 
