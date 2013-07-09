@@ -3,8 +3,6 @@ HistogramInterpolator
 
 Python script for interpolating 1D histograms in ROOT files.
 
-The script was created for the cases when one 
-
 # Requirements
 
 * [PyROOT](http://root.cern.ch/drupal/content/pyroot)
