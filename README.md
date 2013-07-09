@@ -1,5 +1,3 @@
-<div style="float: right">`import json`</div>
-
 HistogramInterpolator
 =====================
 
