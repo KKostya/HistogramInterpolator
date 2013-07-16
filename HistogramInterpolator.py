@@ -13,8 +13,8 @@ def mynorm(x1, x2):
 
 class Interpolator:
     def __init__(self, setup):
-        self
         data = []
+        setup.sort(key=lambda x: x['mass'])
         for mp in setup:
             tfile = ROOT.TFile(mp['file'])
             hist  = tfile.Get(mp['name']) 
@@ -74,7 +74,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     with open(args.setupJson,"r") as jsonF:
-        jsonData = json.load(jsonF)
+        jsonData = json.load(jsonF,"ascii")
 
     if ("src" not in jsonData) or ("dst" not in jsonData): 
         raise Exception("Top level of the json file should contain \"src\" and \"dst\" keys.")
@@ -97,10 +97,11 @@ if __name__ == "__main__":
             mp["file"] = args.dstFile if args.dstFile else args.srcFile
         
     itp = Interpolator(setupSrc)
-    if args.plotFile: itp.MakePlot(args.plotFile)
+    if args.plotFile: itp.MakePlot("",args.plotFile)
+    rates = itp.FillHists(setupDst)
     if args.rateFile:
         with open(args.rateFile, "w") as jswrite:
-             json.dump(itp.FillHists(setupDst),jswrite,sort_keys=True,indent=4, separators=(',', ': '))
+             json.dump(rates,jswrite,sort_keys=True,indent=4, separators=(',', ': '))
 
 
 
